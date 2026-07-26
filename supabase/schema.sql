@@ -5,6 +5,7 @@ create table if not exists public.parent_accounts (
   slug text unique not null check (slug ~ '^[a-z0-9-]{3,40}$'),
   parent_name text not null,
   student_name text not null,
+  phone text,
   password_hash text not null,
   active boolean not null default true,
   created_at timestamptz not null default now()
@@ -80,3 +81,18 @@ create index if not exists announcements_created_idx on public.announcements(cre
 insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
 values ('event-images', 'event-images', true, 4194304, array['image/jpeg','image/png','image/webp'])
 on conflict (id) do update set public = true, file_size_limit = 4194304, allowed_mime_types = array['image/jpeg','image/png','image/webp'];
+
+create table if not exists public.login_attempts (
+  id uuid primary key default gen_random_uuid(),
+  scope text not null check (scope in ('admin', 'parent')),
+  ip text not null,
+  account_key text not null,
+  success boolean not null,
+  created_at timestamptz not null default now()
+);
+
+alter table public.login_attempts enable row level security;
+revoke all on public.login_attempts from anon, authenticated;
+
+create index if not exists login_attempts_scope_ip_idx on public.login_attempts(scope, ip, created_at desc);
+create index if not exists login_attempts_scope_account_idx on public.login_attempts(scope, account_key, created_at desc);
