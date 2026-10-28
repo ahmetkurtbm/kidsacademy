@@ -20,6 +20,8 @@ export async function POST(request: Request) {
     const title = String(form.get("title") || "").trim();
     const body = String(form.get("body") || "").trim();
     const image = form.get("image");
+    // "Taslak olarak kaydet" işaretliyse kayıt sitede görünmez; sonradan yayınlanabilir.
+    const published = form.get("draft") !== "on";
     if (!title || !body) return NextResponse.json({ error: "Duyuru başlığı ve açıklaması zorunludur." }, { status: 400 });
 
     const db = getSupabaseAdmin();
@@ -35,7 +37,7 @@ export async function POST(request: Request) {
       imageUrl = db.storage.from(BUCKET).getPublicUrl(imagePath).data.publicUrl;
     }
 
-    const { error } = await db.from("announcements").insert({ title, body, image_path: imagePath, image_url: imageUrl, published: true });
+    const { error } = await db.from("announcements").insert({ title, body, image_path: imagePath, image_url: imageUrl, published });
     if (error) {
       if (imagePath) await db.storage.from(BUCKET).remove([imagePath]);
       throw error;
@@ -43,6 +45,20 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: true });
   } catch (error) {
     return NextResponse.json({ error: error instanceof Error ? error.message : "Duyuru kaydedilemedi." }, { status: 500 });
+  }
+}
+
+/** Yayın durumunu değiştirir: taslağı yayınlar ya da yayındakini gizler. */
+export async function PATCH(request: Request) {
+  if (!(await authorized())) return NextResponse.json({ error: "Yetkisiz." }, { status: 401 });
+  try {
+    const { id, published } = await request.json();
+    if (!id || typeof published !== "boolean") return NextResponse.json({ error: "Geçersiz işlem." }, { status: 400 });
+    const { error } = await getSupabaseAdmin().from("announcements").update({ published }).eq("id", id);
+    if (error) throw error;
+    return NextResponse.json({ ok: true });
+  } catch (error) {
+    return NextResponse.json({ error: error instanceof Error ? error.message : "Güncelleme başarısız." }, { status: 500 });
   }
 }
 

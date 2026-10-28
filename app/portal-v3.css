@@ -1,0 +1,928 @@
+/*
+ * Giriş ekranları, veli sonuç sayfası ve yönetim paneli için yeni tasarım.
+ * Ana sayfayla (home-v3.css) aynı dil: Baloo 2 başlık, Nunito metin,
+ * öğrenme mavisi, oyun sarısı, yumuşak yuvarlak kartlar.
+ * Eski portal.css sınıflarının üzerine yazar; bileşen mantığına dokunmaz.
+ */
+:root {
+  --p-ink: #14213d;
+  --p-text: #3d4a63;
+  --p-muted: #5b6780;
+  --p-bg: #f3f7fe;
+  --p-line: #e1e8f5;
+  --p-blue: #1d4ed8;
+  --p-blue-soft: #dbe8ff;
+  --p-yellow: #f6b81d;
+  --p-yellow-soft: #fff1c9;
+  --p-green: #13804a;
+  --p-green-soft: #dcf4e6;
+  --p-red: #b8341f;
+  --p-red-soft: #ffe6e0;
+  --p-radius: 20px;
+  --p-shadow: 0 1px 0 rgba(20, 33, 61, 0.04), 0 12px 30px -18px rgba(29, 78, 216, 0.35);
+  --p-display: var(--font-ka-display), "Baloo 2", system-ui, sans-serif;
+  --p-font: var(--font-ka-text), "Nunito", system-ui, sans-serif;
+}
+
+/* ---------- Giriş ekranları ---------- */
+.ka-auth {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  font-family: var(--p-font);
+  color: var(--p-text);
+  background: #fff;
+}
+.ka-auth-brand {
+  display: flex;
+  flex-direction: column;
+  padding: clamp(28px, 5vw, 56px);
+  color: #fff;
+  background:
+    radial-gradient(70% 60% at 100% 0%, rgba(255, 255, 255, 0.14) 0%, transparent 60%),
+    linear-gradient(160deg, #1d4ed8 0%, #14213d 100%);
+}
+.ka-auth-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  color: #fff;
+  text-decoration: none;
+}
+.ka-auth-logo img {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  object-fit: cover;
+  background: #fff;
+}
+.ka-auth-logo b {
+  display: block;
+  font-family: var(--p-display);
+  font-size: 22px;
+  line-height: 1.1;
+}
+.ka-auth-logo small {
+  display: block;
+  font-size: 13px;
+  opacity: 0.85;
+}
+.ka-auth-pitch {
+  margin: auto 0;
+  padding: 48px 0;
+  max-width: 460px;
+}
+.ka-auth-badge {
+  display: inline-block;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.16);
+  font-weight: 800;
+  font-size: 14px;
+}
+.ka-auth-pitch h1 {
+  font-family: var(--p-display);
+  font-size: clamp(36px, 4.4vw, 54px);
+  line-height: 1.05;
+  margin: 18px 0 12px;
+  color: #fff;
+}
+.ka-auth-pitch p {
+  margin: 0;
+  font-size: 18px;
+  line-height: 1.6;
+  color: #e3eaff;
+}
+.ka-auth-pitch ul {
+  list-style: none;
+  padding: 0;
+  margin: 28px 0 0;
+  display: grid;
+  gap: 12px;
+  font-weight: 700;
+}
+.ka-auth-pitch li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.ka-auth-pitch li svg {
+  color: var(--p-yellow);
+  flex: none;
+}
+.ka-auth-back {
+  color: #e3eaff;
+  font-weight: 700;
+  text-decoration: none;
+  font-size: 15px;
+}
+.ka-auth-back:hover {
+  color: #fff;
+}
+.ka-auth-panel {
+  display: grid;
+  place-items: center;
+  padding: clamp(24px, 5vw, 56px);
+  background: var(--p-bg);
+}
+.ka-auth-card {
+  width: min(440px, 100%);
+  display: grid;
+  gap: 16px;
+  padding: clamp(26px, 4vw, 40px);
+  background: #fff;
+  border: 1px solid var(--p-line);
+  border-radius: 26px;
+  box-shadow: var(--p-shadow);
+}
+.ka-auth-card h2 {
+  margin: 0;
+  font-family: var(--p-display);
+  font-size: 30px;
+  line-height: 1.1;
+  color: var(--p-ink);
+}
+.ka-auth-card p {
+  margin: -6px 0 4px;
+  color: var(--p-muted);
+}
+.ka-auth-card label {
+  display: grid;
+  gap: 6px;
+  font-weight: 800;
+  font-size: 14px;
+  color: var(--p-ink);
+}
+.ka-auth-card input {
+  width: 100%;
+  min-height: 50px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 1.5px solid #cdd8ec;
+  background: #fbfdff;
+  font: 500 16px var(--p-font);
+  color: var(--p-ink);
+}
+.ka-auth-card input::placeholder {
+  color: #6b7790;
+}
+.ka-auth-card input:focus {
+  outline: 3px solid var(--p-blue-soft);
+  border-color: var(--p-blue);
+}
+.ka-auth-card button {
+  min-height: 54px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--p-blue);
+  color: #fff;
+  font: 800 17px var(--p-font);
+  cursor: pointer;
+  transition: background-color 180ms ease-out, transform 180ms ease-out;
+}
+.ka-auth-card button:hover {
+  background: #1a43bd;
+}
+.ka-auth-card button:disabled {
+  opacity: 0.7;
+  cursor: wait;
+}
+.ka-auth-error {
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: var(--p-red-soft);
+  color: var(--p-red);
+  font-weight: 700;
+  font-size: 15px;
+}
+.ka-auth-help {
+  text-align: center;
+  color: var(--p-blue);
+  font-weight: 700;
+  font-size: 14px;
+  text-decoration: none;
+}
+.ka-auth-help:hover {
+  text-decoration: underline;
+}
+.ka-auth :focus-visible,
+.resultsPage :focus-visible,
+.adminShell :focus-visible,
+.portalCenter :focus-visible {
+  outline: 3px solid var(--p-blue);
+  outline-offset: 3px;
+}
+
+@media (max-width: 860px) {
+  .ka-auth {
+    grid-template-columns: 1fr;
+  }
+  .ka-auth-pitch {
+    padding: 28px 0 8px;
+  }
+  .ka-auth-pitch ul,
+  .ka-auth-back {
+    display: none;
+  }
+  .ka-auth-panel {
+    place-items: start center;
+  }
+}
+
+/* ---------- Ortak portal öğeleri ---------- */
+.portalCenter,
+.resultsPage,
+.adminShell {
+  font-family: var(--p-font);
+  color: var(--p-text);
+  background: var(--p-bg);
+}
+.portalCenter {
+  padding: 24px;
+}
+.loginCard {
+  border-radius: 26px;
+  border: 1px solid var(--p-line);
+  box-shadow: var(--p-shadow);
+}
+.loginCard h1 {
+  font-family: var(--p-display);
+  color: var(--p-ink);
+}
+.loginCard input {
+  border-radius: 14px;
+  border: 1.5px solid #cdd8ec;
+  min-height: 50px;
+  font: 500 16px var(--p-font);
+}
+.loginCard button {
+  border-radius: 999px;
+  background: var(--p-blue);
+  font: 800 17px var(--p-font);
+  min-height: 54px;
+}
+.portalLogo {
+  font-family: var(--p-display);
+  font-size: 20px;
+  color: var(--p-ink);
+}
+.portalLogo img {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  object-fit: cover;
+  background: #fff;
+}
+.loginCard > span,
+.adminMain small,
+.cardHead small,
+.resultHero small,
+.resultSectionHead small {
+  font: 800 13px var(--p-font);
+  letter-spacing: 0.04em;
+  text-transform: none;
+  color: var(--p-blue);
+}
+.formMessage {
+  border-radius: 14px;
+  font-size: 15px;
+  background: var(--p-green-soft);
+  color: #0d5e36;
+}
+.formMessage.error {
+  background: var(--p-red-soft);
+  color: var(--p-red);
+}
+
+/* ---------- Veli sonuç sayfası ---------- */
+.resultsNav {
+  height: 72px;
+  border-bottom: 1px solid var(--p-line);
+}
+.resultsNav > div {
+  font-size: 14px;
+}
+.resultsNav button {
+  border-radius: 999px;
+  background: var(--p-blue-soft);
+  color: var(--p-blue);
+  font: 800 14px var(--p-font);
+  padding: 10px 16px;
+}
+.resultHero h1 {
+  font-family: var(--p-display);
+  color: var(--p-ink);
+  line-height: 1.05;
+}
+.resultHero p {
+  color: var(--p-muted);
+  font-size: 17px;
+}
+.latestScore {
+  border-radius: 24px;
+  background: var(--p-yellow-soft);
+  border: 2px solid #ffe08a;
+  color: var(--p-ink);
+}
+.latestScore b {
+  font-family: var(--p-display);
+}
+.latestScore span {
+  font-size: 14px;
+}
+.progressCard,
+.examCard,
+.priorityTopics,
+.subjectOverview,
+.resultMetrics article,
+.emptyChart,
+.noResults {
+  border-radius: var(--p-radius);
+  border: 1px solid var(--p-line);
+  box-shadow: var(--p-shadow);
+}
+.resultMetrics article:first-child {
+  background: var(--p-yellow-soft);
+}
+.resultMetrics .positiveMetric {
+  background: var(--p-green-soft);
+}
+.resultMetrics small {
+  font: 800 13px var(--p-font);
+  letter-spacing: 0.02em;
+  color: var(--p-muted);
+}
+.resultMetrics b,
+.examTop > strong,
+.stats b {
+  font-family: var(--p-display);
+  color: var(--p-ink);
+}
+.resultMetrics span,
+.resultSectionHead > span,
+.subjectResultRow span,
+.subjectOverviewGrid p {
+  font-size: 14px;
+}
+.cardHead h2,
+.resultSectionHead h2,
+.examTop h3 {
+  font-family: var(--p-display);
+  color: var(--p-ink);
+}
+.subjectOverviewGrid article,
+.priorityTopicsList article,
+.teacherNote {
+  border-radius: 16px;
+  background: #f6f9ff;
+  border: 1px solid var(--p-line);
+  border-left: 1px solid var(--p-line);
+}
+.priorityTopicsList b,
+.teacherNote b {
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 15px;
+  color: var(--p-ink);
+}
+.priorityTopicsList p,
+.teacherNote p,
+.subjectOverviewGrid small,
+.subjectResultRow p {
+  font-size: 14px;
+}
+.subjectProgress {
+  border-radius: 999px;
+  background: var(--p-line);
+}
+.subjectProgress i {
+  border-radius: 999px;
+  background: var(--p-blue);
+}
+.chartWrap svg polyline {
+  stroke: var(--p-blue);
+}
+.chartWrap svg circle {
+  fill: var(--p-yellow);
+}
+.chartWrap svg text {
+  font-family: var(--p-font);
+}
+.chartDates {
+  font-size: 13px;
+}
+.subjectResultHeader {
+  font-size: 13px;
+  text-transform: none;
+  letter-spacing: 0;
+  font-weight: 800;
+  color: var(--p-muted);
+}
+.subjectResultRow .correct {
+  color: var(--p-green);
+}
+.subjectResultRow .wrong {
+  color: var(--p-red);
+}
+.examTop time {
+  font-size: 13px;
+  letter-spacing: 0;
+  text-transform: none;
+  font-weight: 700;
+  color: var(--p-blue);
+}
+
+/* ---------- Yönetim paneli ---------- */
+.adminSidebar {
+  background: var(--p-ink);
+}
+.adminSidebar .portalLogo {
+  color: #fff;
+}
+.adminSidebar nav a {
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #c9d3e6;
+}
+.adminSidebar nav a:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+.adminSidebar > button {
+  border-radius: 999px;
+  font: 700 14px var(--p-font);
+}
+.adminMain > header h1 {
+  font-family: var(--p-display);
+  color: var(--p-ink);
+}
+.adminMain > header a {
+  font-size: 14px;
+  color: var(--p-blue);
+}
+.stats article,
+.adminCard {
+  border-radius: var(--p-radius);
+  border: 1px solid var(--p-line);
+  box-shadow: var(--p-shadow);
+}
+.cardHead > p {
+  font-size: 14px;
+}
+.adminForm label {
+  font-size: 14px;
+  color: var(--p-ink);
+}
+.adminForm input,
+.adminForm select,
+.adminForm textarea {
+  border-radius: 12px;
+  border: 1.5px solid #cdd8ec;
+  background: #fbfdff;
+  font: 500 15px var(--p-font);
+  min-height: 46px;
+}
+.adminForm input:focus,
+.adminForm select:focus,
+.adminForm textarea:focus {
+  border-color: var(--p-blue);
+  box-shadow: 0 0 0 3px var(--p-blue-soft);
+}
+.adminPrimary {
+  border-radius: 999px;
+  background: var(--p-blue);
+  font: 800 15px var(--p-font);
+  min-height: 48px;
+}
+.adminPrimary:hover {
+  background: #1a43bd;
+}
+.subjectEditor {
+  border-radius: 16px;
+  overflow: hidden;
+  border-color: var(--p-line);
+}
+.subjectHeader {
+  background: var(--p-ink);
+  font-size: 13px;
+  letter-spacing: 0.02em;
+}
+.accountList span,
+.examAdminList span,
+.eventAdminList span,
+.eventAdminList time {
+  font-size: 14px;
+}
+.accountList button,
+.examAdminList button,
+.eventAdminList button {
+  border-radius: 999px;
+  background: var(--p-red-soft);
+  color: var(--p-red);
+  font: 700 14px var(--p-font);
+  padding: 8px 14px;
+}
+.eventAdminList article {
+  border-radius: 14px;
+  border-color: var(--p-line);
+}
+.eventAdminList img,
+.eventPlaceholder {
+  border-radius: 10px;
+}
+.adminEmpty {
+  border-radius: 16px;
+  background: #f6f9ff;
+}
+/* Kayıt sonucu sayfanın en üstünde kalıyordu; artık ekranın altında bildirim
+   olarak görünür, aşağıda form gönderen yönetici de görür. */
+.adminShell .formMessage {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 60;
+  max-width: min(420px, calc(100% - 48px));
+  padding: 14px 18px;
+  box-shadow: 0 18px 40px -18px rgba(20, 33, 61, 0.55);
+}
+.adminShell .formMessage:has(a) {
+  bottom: 90px;
+}
+
+@media (max-width: 650px) {
+  /* Telefonda yan menü tamamen gizleniyordu; yatay kaydırılabilir menü olarak kalır. */
+  .adminSidebar {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .adminSidebar nav {
+    display: flex !important;
+    order: 3;
+    width: 100%;
+    margin: 0;
+    overflow-x: auto;
+    gap: 6px;
+    padding-bottom: 4px;
+  }
+  .adminSidebar nav a {
+    white-space: nowrap;
+    padding: 10px 12px;
+    background: rgba(255, 255, 255, 0.08);
+  }
+  .adminShell .formMessage {
+    right: 12px;
+    left: 12px;
+    bottom: 12px;
+    max-width: none;
+  }
+}
+
+/* ---------- Taslak, önizleme ve yayın durumu ---------- */
+.contentPreview {
+  display: grid;
+  gap: 8px;
+  padding: 14px;
+  border-radius: 16px;
+  background: #f6f9ff;
+  border: 1px dashed #b9c9ea;
+}
+.contentPreview > small {
+  font: 800 13px var(--p-font);
+  color: var(--p-blue);
+}
+.contentPreview article {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  overflow: hidden;
+  border-radius: 16px;
+  background: #fff;
+  border: 1px solid var(--p-line);
+}
+.contentPreview article:has(img) {
+  grid-template-columns: 120px minmax(0, 1fr);
+}
+.contentPreview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.contentPreview article > div {
+  padding: 14px 16px;
+}
+.contentPreview time {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--p-blue);
+}
+.contentPreview h3 {
+  margin: 2px 0 4px;
+  font-family: var(--p-display);
+  font-size: 19px;
+  color: var(--p-ink);
+}
+.contentPreview p {
+  margin: 0;
+  font-size: 14px;
+  color: var(--p-muted);
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.adminForm .checkLine {
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-weight: 700;
+}
+.adminForm .checkLine input {
+  width: 20px;
+  height: 20px;
+  min-height: 0;
+  accent-color: var(--p-blue);
+}
+.adminForm .checkLine small {
+  font-weight: 500;
+  color: var(--p-muted);
+}
+.rowActions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 6px;
+}
+.statusBadge {
+  font-style: normal;
+  font-size: 12px;
+  font-weight: 800;
+  padding: 3px 10px;
+  border-radius: 999px;
+}
+.statusBadge.live {
+  background: var(--p-green-soft);
+  color: #0d5e36;
+}
+.statusBadge.draft {
+  background: var(--p-yellow-soft);
+  color: #6b4b00;
+}
+.eventAdminList .toggleButton {
+  background: var(--p-blue-soft);
+  color: var(--p-blue);
+}
+.eventAdminList article.isDraft {
+  background: #fffdf5;
+  border-style: dashed;
+}
+@media (max-width: 650px) {
+  .eventAdminList article {
+    grid-template-columns: 58px 1fr;
+  }
+  .rowActions {
+    grid-column: 1 / -1;
+    justify-content: flex-start;
+  }
+}
+
+/* ---------- Veli sonuçları: telefonda tablo yerine ders kartları ---------- */
+.chartWrap {
+  overflow: hidden;
+}
+.chartWrap svg {
+  display: block;
+  max-width: 100%;
+}
+.chartWrap svg text {
+  font-size: 13px;
+  fill: var(--p-muted);
+}
+.chartWrap svg .scoreLabel {
+  font-weight: 800;
+  fill: var(--p-ink);
+}
+@media (max-width: 650px) {
+  .subjectTable {
+    overflow: visible;
+    display: grid;
+    gap: 10px;
+  }
+  .subjectResultHeader {
+    display: none;
+  }
+  .subjectResultRow {
+    min-width: 0;
+    grid-template-columns: 1fr auto auto auto;
+    gap: 8px 10px;
+    padding: 14px;
+    border: 1px solid var(--p-line);
+    border-radius: 16px;
+    background: #f9fbff;
+  }
+  .subjectResultRow:first-of-type {
+    border-top: 1px solid var(--p-line);
+  }
+  .subjectResultRow b {
+    font-size: 15px;
+  }
+  .subjectResultRow > span {
+    min-width: 40px;
+    padding: 3px 8px;
+    border-radius: 999px;
+    background: #fff;
+    border: 1px solid var(--p-line);
+    text-align: center;
+    font-weight: 800;
+  }
+  .subjectResultRow p {
+    grid-column: 1 / -1;
+    font-size: 14px;
+  }
+  .subjectResultRow p::before {
+    content: "Çalışılacak: ";
+    font-weight: 800;
+    color: var(--p-ink);
+  }
+}
+
+/* ---------- Deneme girişi ---------- */
+.scoreEditor .subjectHeader,
+.scoreEditor .subjectRow {
+  grid-template-columns: 1.2fr 70px 70px 70px 70px 64px 2fr;
+}
+.scoreEditor .subjectRow input[readonly] {
+  background: #eef2f9;
+  color: var(--p-muted);
+}
+.scoreEditor output,
+.totalsRow span {
+  font-weight: 800;
+  color: var(--p-ink);
+  text-align: center;
+}
+.scoreEditor .subjectRow.hasError {
+  background: var(--p-red-soft);
+}
+.scoreEditor .subjectRow.hasError input:not([readonly]) {
+  border-color: var(--p-red);
+}
+.totalsRow {
+  background: #f6f9ff;
+}
+.scoreLine {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 12px 20px;
+}
+.scoreLine label {
+  width: 180px;
+}
+.scoreLine p {
+  margin: 0 0 12px;
+  font-size: 15px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+.scoreLine button,
+.secondaryButton {
+  border: 1.5px solid var(--p-blue);
+  background: #fff;
+  color: var(--p-blue);
+  border-radius: 999px;
+  padding: 8px 16px;
+  min-height: 44px;
+  font: 800 14px var(--p-font);
+  cursor: pointer;
+}
+.secondaryButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.inlineError {
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: var(--p-red-soft);
+  color: var(--p-red);
+  font-weight: 700;
+}
+.formActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+.formActions .adminPrimary {
+  align-self: auto;
+}
+
+/* Toplu giriş */
+.batchQuestions {
+  display: grid;
+  grid-template-columns: 110px repeat(5, minmax(0, 1fr));
+  gap: 10px;
+  align-items: end;
+  padding: 14px;
+  border-radius: 16px;
+  background: #f6f9ff;
+  border: 1px solid var(--p-line);
+}
+.batchQuestions > b {
+  align-self: center;
+  color: var(--p-ink);
+}
+.batchQuestions label {
+  font-size: 13px;
+}
+.batchTable {
+  border: 1px solid var(--p-line);
+  border-radius: 16px;
+  overflow-x: auto;
+}
+.batchRow {
+  display: grid;
+  grid-template-columns: 180px repeat(5, minmax(108px, 1fr)) 96px;
+  gap: 8px;
+  align-items: center;
+  min-width: 860px;
+  padding: 8px 12px;
+  border-top: 1px solid var(--p-line);
+}
+.batchHead {
+  border-top: 0;
+  background: var(--p-ink);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 800;
+}
+.batchHead small {
+  display: block;
+  font-weight: 600;
+  opacity: 0.8;
+}
+.batchRow.isIncluded {
+  background: #f6f9ff;
+}
+.batchRow.hasError {
+  background: var(--p-red-soft);
+}
+.batchStudent {
+  flex-direction: row !important;
+  align-items: center;
+  gap: 8px !important;
+  font-weight: 800;
+}
+.batchStudent input {
+  width: 18px !important;
+  height: 18px;
+  min-height: 0 !important;
+  accent-color: var(--p-blue);
+}
+.batchPair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px;
+}
+.batchRow input[type="number"] {
+  min-height: 40px;
+  padding: 8px;
+  text-align: center;
+}
+.batchHint {
+  margin: 0;
+  font-size: 14px;
+  color: var(--p-muted);
+}
+.notifyList {
+  display: grid;
+  gap: 8px;
+  padding: 14px;
+  border-radius: 16px;
+  background: var(--p-green-soft);
+}
+.notifyList a {
+  color: #0d5e36;
+  font-weight: 800;
+}
+@media (max-width: 900px) {
+  .scoreEditor .subjectHeader,
+  .scoreEditor .subjectRow {
+    min-width: 760px;
+  }
+  .scoreEditor {
+    overflow-x: auto;
+  }
+  .batchQuestions {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .batchQuestions > b {
+    grid-column: 1 / -1;
+  }
+}
+@media (max-width: 650px) {
+  .subjectResultRow p.noTopics {
+    display: none;
+  }
+}

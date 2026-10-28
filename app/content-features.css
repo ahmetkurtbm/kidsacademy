@@ -35,7 +35,7 @@ body {
   border-radius: 999px;
   background: #17243d;
   color: #fff;
-  font: 700 10px 'Nunito', sans-serif;
+  font: 700 12px 'Nunito', sans-serif;
   letter-spacing: .14em;
 }
 
@@ -69,7 +69,7 @@ body {
 
 .announcementCopy small {
   color: #e65f48;
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 800;
   letter-spacing: .13em;
 }
@@ -121,7 +121,7 @@ body {
 .shareChooser legend {
   grid-column: 1 / -1;
   margin-bottom: 7px;
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 700;
   letter-spacing: .05em;
 }
@@ -156,7 +156,7 @@ body {
 .shareChooser span {
   margin-top: 5px;
   color: #727d8e;
-  font-size: 9px;
+  font-size: 12px;
   line-height: 1.4;
 }
 
@@ -201,7 +201,7 @@ body {
 
 .parentActivityGrid time {
   color: #e45f49;
-  font-size: 9px;
+  font-size: 12px;
   font-weight: 800;
   letter-spacing: .1em;
 }
@@ -218,7 +218,7 @@ body {
 }
 
 .parentActivityGrid p { margin: 0; font-size: 12px; }
-.parentActivityGrid small { display: block; margin-top: 12px; font-size: 11px; }
+.parentActivityGrid small { display: block; margin-top: 12px; font-size: 13px; }
 
 @media (max-width: 1000px) {
   .adminMain .statsFive { grid-template-columns: repeat(2, 1fr); }

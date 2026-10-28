@@ -24,6 +24,7 @@ export async function POST(request: Request) {
     const shareScope = String(form.get("shareScope") || "site");
     const parentId = String(form.get("parentId") || "").trim();
     const image = form.get("image");
+    const published = form.get("draft") !== "on";
     if (!title || !eventDate || !summary) return NextResponse.json({ error: "Başlık, tarih ve kısa açıklama zorunludur." }, { status: 400 });
     if (!['site', 'parent'].includes(shareScope)) return NextResponse.json({ error: "Geçersiz paylaşım hedefi." }, { status: 400 });
     if (shareScope === "parent" && !parentId) return NextResponse.json({ error: "Veliyle paylaşım için öğrenci seçin." }, { status: 400 });
@@ -49,7 +50,7 @@ export async function POST(request: Request) {
       }
     }
 
-    const { error } = await db.from("events").insert({ title, event_date: eventDate, summary, details: details || null, image_path: imagePath, image_url: imageUrl, published: true, share_scope: shareScope, parent_id: shareScope === "parent" ? parentId : null });
+    const { error } = await db.from("events").insert({ title, event_date: eventDate, summary, details: details || null, image_path: imagePath, image_url: imageUrl, published, share_scope: shareScope, parent_id: shareScope === "parent" ? parentId : null });
     if (error) {
       if (imagePath) await db.storage.from(BUCKET).remove([imagePath]);
       throw error;
@@ -57,6 +58,20 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: true });
   } catch (error) {
     return NextResponse.json({ error: error instanceof Error ? error.message : "Etkinlik kaydedilemedi." }, { status: 500 });
+  }
+}
+
+/** Yayın durumunu değiştirir: taslağı yayınlar ya da yayındakini gizler. */
+export async function PATCH(request: Request) {
+  if (!(await authorized())) return NextResponse.json({ error: "Yetkisiz." }, { status: 401 });
+  try {
+    const { id, published } = await request.json();
+    if (!id || typeof published !== "boolean") return NextResponse.json({ error: "Geçersiz işlem." }, { status: 400 });
+    const { error } = await getSupabaseAdmin().from("events").update({ published }).eq("id", id);
+    if (error) throw error;
+    return NextResponse.json({ ok: true });
+  } catch (error) {
+    return NextResponse.json({ error: error instanceof Error ? error.message : "Güncelleme başarısız." }, { status: 500 });
   }
 }
 

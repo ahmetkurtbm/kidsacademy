@@ -1,0 +1,917 @@
+/*
+ * Ana sayfa (v3). Tüm sınıflar `ka-` önekli ve `.ka` kapsamında; portal ve
+ * yönetim ekranlarının stilleriyle çakışmaz.
+ *
+ * Düzen: güven + dönüşüm (net başlık, iki eylem, faydalar, programlar,
+ * haftalık akış, veli paneli, SSS, form). Görsel dil: yumuşak, yuvarlak
+ * "kil" kartlar; öğrenme mavisi, oyun sarısı ve markanın mercanı.
+ */
+.ka {
+  --ka-ink: #14213d;
+  --ka-text: #3d4a63;
+  --ka-muted: #5b6780;
+  --ka-bg: #ffffff;
+  --ka-sky: #eef5ff;
+  --ka-cream: #fff8ec;
+  --ka-line: #e3eaf6;
+  --ka-blue: #1d4ed8;
+  --ka-blue-soft: #dbe8ff;
+  --ka-yellow: #f6b81d;
+  --ka-yellow-soft: #fff1c9;
+  --ka-coral: #ff6e56;
+  --ka-coral-ink: #b8341f;
+  --ka-coral-soft: #ffe3dc;
+  --ka-green: #13804a;
+  --ka-green-soft: #dcf4e6;
+  --ka-purple-soft: #ece4ff;
+  --ka-purple-ink: #5b3db8;
+  --ka-radius: 22px;
+  --ka-shadow: 0 1px 0 rgba(20, 33, 61, 0.04), 0 10px 28px -14px rgba(29, 78, 216, 0.28);
+  --ka-display: var(--font-ka-display), "Baloo 2", system-ui, sans-serif;
+
+  background: var(--ka-bg);
+  color: var(--ka-text);
+  font-family: var(--font-ka-text), "Nunito", system-ui, sans-serif;
+  font-size: 17px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+.ka *,
+.ka *::before,
+.ka *::after {
+  box-sizing: border-box;
+}
+.ka img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+.ka h1,
+.ka h2,
+.ka h3 {
+  font-family: var(--ka-display);
+  color: var(--ka-ink);
+  letter-spacing: -0.01em;
+  margin: 0;
+  text-wrap: balance;
+}
+.ka p {
+  margin: 0;
+  text-wrap: pretty;
+}
+.ka a {
+  color: inherit;
+}
+.ka :focus-visible {
+  outline: 3px solid var(--ka-blue);
+  outline-offset: 3px;
+  border-radius: 10px;
+}
+.ka ::selection {
+  background: var(--ka-yellow-soft);
+  color: var(--ka-ink);
+}
+
+.ka-wrap {
+  width: min(1180px, 100% - 32px);
+  margin-inline: auto;
+}
+.ka-section {
+  padding: clamp(64px, 9vw, 112px) 0;
+}
+.ka-soft {
+  background: var(--ka-sky);
+}
+.ka-lead {
+  font-size: clamp(17px, 1.6vw, 19px);
+  color: var(--ka-text);
+  max-width: 58ch;
+}
+
+/* Düğmeler */
+.ka-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 48px;
+  padding: 0 22px;
+  border-radius: 999px;
+  border: 2px solid transparent;
+  font-weight: 800;
+  font-size: 16px;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    transform 180ms ease-out,
+    box-shadow 180ms ease-out,
+    background-color 180ms ease-out;
+}
+.ka-btn:hover {
+  transform: translateY(-1px);
+}
+.ka-btn:active {
+  transform: translateY(1px);
+}
+.ka-btn-lg {
+  min-height: 56px;
+  padding: 0 28px;
+  font-size: 17px;
+}
+.ka-btn-wa {
+  background: var(--ka-green);
+  color: #fff !important;
+  box-shadow: 0 8px 18px -10px rgba(19, 128, 74, 0.8);
+}
+.ka-btn-wa:hover {
+  background: #0f6c3e;
+}
+.ka-btn-primary {
+  background: var(--ka-blue);
+  color: #fff !important;
+  box-shadow: 0 8px 18px -10px rgba(29, 78, 216, 0.8);
+}
+.ka-btn-primary:hover {
+  background: #1a43bd;
+}
+.ka-btn-ghost {
+  background: #fff;
+  color: var(--ka-ink) !important;
+  border-color: var(--ka-line);
+}
+.ka-btn-ghost:hover {
+  border-color: var(--ka-blue);
+}
+.ka-wa {
+  width: 20px;
+  height: 20px;
+  flex: none;
+}
+
+/* Üst bilgi şeridi ve başlık */
+.ka-util {
+  background: var(--ka-ink);
+  color: #e7ecf7;
+  font-size: 14px;
+}
+.ka-util-in {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  min-height: 40px;
+}
+.ka-util a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+  color: #e7ecf7;
+}
+.ka-util a:hover {
+  color: #fff;
+}
+.ka-util-login {
+  margin-left: auto;
+  font-weight: 800;
+  color: var(--ka-yellow) !important;
+}
+.ka-header {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background: rgba(255, 255, 255, 0.94);
+  border-bottom: 1px solid var(--ka-line);
+}
+.ka-header-in {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  min-height: 76px;
+}
+.ka-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  color: var(--ka-ink);
+}
+.ka-brand img {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  object-fit: cover;
+}
+.ka-brand b {
+  display: block;
+  font-family: var(--ka-display);
+  font-size: 21px;
+  line-height: 1.1;
+  color: var(--ka-ink);
+}
+.ka-brand small {
+  display: block;
+  font-size: 13px;
+  color: var(--ka-muted);
+}
+.ka-nav {
+  display: flex;
+  gap: 4px;
+  margin-left: auto;
+}
+.ka-nav a {
+  padding: 10px 12px;
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--ka-ink);
+}
+.ka-nav a:hover {
+  background: var(--ka-sky);
+}
+
+/* Açılış */
+.ka-hero {
+  background:
+    radial-gradient(60% 80% at 100% 0%, var(--ka-yellow-soft) 0%, transparent 60%),
+    linear-gradient(180deg, var(--ka-sky) 0%, #fff 100%);
+  padding: clamp(40px, 6vw, 80px) 0 clamp(48px, 7vw, 96px);
+}
+.ka-hero-in {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  gap: clamp(32px, 5vw, 64px);
+  align-items: center;
+}
+.ka-hero h1 {
+  font-size: clamp(40px, 5.4vw, 68px);
+  line-height: 1.02;
+  font-weight: 800;
+}
+.ka-hero h1 span {
+  display: block;
+  color: var(--ka-blue);
+}
+.ka-hero .ka-lead {
+  margin-top: 20px;
+}
+.ka-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 30px;
+}
+.ka-checks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 22px;
+  list-style: none;
+  padding: 0;
+  margin: 26px 0 0;
+  font-weight: 700;
+  color: var(--ka-ink);
+}
+.ka-checks li {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.ka-checks svg {
+  color: var(--ka-green);
+}
+.ka-hero-media {
+  position: relative;
+}
+.ka-hero-media img {
+  width: 100%;
+  aspect-ratio: 5 / 4;
+  object-fit: cover;
+  border-radius: 32px;
+  border: 6px solid #fff;
+  box-shadow: 0 30px 60px -30px rgba(20, 33, 61, 0.45);
+}
+.ka-hero-badge {
+  position: absolute;
+  left: -18px;
+  bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  max-width: 280px;
+  padding: 14px 18px;
+  border-radius: 18px;
+  background: #fff;
+  box-shadow: var(--ka-shadow);
+  color: var(--ka-blue);
+  font-size: 14px;
+}
+.ka-hero-badge span {
+  color: var(--ka-text);
+}
+.ka-hero-badge b {
+  display: block;
+  color: var(--ka-ink);
+  font-size: 15px;
+}
+
+/* Faydalar */
+.ka-benefits {
+  margin-top: -40px;
+  position: relative;
+}
+.ka-benefit-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+.ka-benefit {
+  background: #fff;
+  border: 1px solid var(--ka-line);
+  border-radius: var(--ka-radius);
+  padding: 24px;
+  box-shadow: var(--ka-shadow);
+}
+.ka-benefit h2 {
+  font-size: 21px;
+  margin-top: 14px;
+}
+.ka-benefit p {
+  margin-top: 6px;
+  font-size: 15px;
+  color: var(--ka-muted);
+}
+.ka-icon {
+  display: inline-grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 14px;
+  background: var(--ka-blue-soft);
+  color: var(--ka-blue);
+  flex: none;
+}
+.ka-icon-lg {
+  width: 56px;
+  height: 56px;
+  border-radius: 18px;
+}
+
+/* Bölüm başlıkları */
+.ka-head {
+  text-align: center;
+  max-width: 680px;
+  margin: 0 auto 44px;
+}
+.ka-head h2,
+.ka-section h2 {
+  font-size: clamp(32px, 3.8vw, 46px);
+  line-height: 1.08;
+  font-weight: 800;
+}
+.ka-head p {
+  margin-top: 12px;
+  color: var(--ka-muted);
+  font-size: 18px;
+}
+.ka-head-left {
+  text-align: left;
+  margin: 0;
+}
+.ka-head-left .ka-btn {
+  margin-top: 26px;
+}
+
+/* Programlar */
+.ka-program-grid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 18px;
+}
+.ka-program {
+  grid-column: span 2;
+  display: flex;
+  flex-direction: column;
+  padding: 28px;
+  border-radius: 26px;
+  border: 2px solid transparent;
+  transition:
+    transform 200ms ease-out,
+    box-shadow 200ms ease-out;
+}
+.ka-program:nth-child(4),
+.ka-program:nth-child(5) {
+  grid-column: span 3;
+}
+.ka-program:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--ka-shadow);
+}
+.ka-program h3 {
+  font-size: 24px;
+  margin-top: 18px;
+}
+.ka-program p {
+  margin: 8px 0 22px;
+  color: var(--ka-text);
+}
+.ka-link {
+  margin-top: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 800;
+  text-decoration: none;
+  color: var(--ka-ink);
+}
+.ka-link:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.ka-tone-blue {
+  background: var(--ka-blue-soft);
+}
+.ka-tone-blue .ka-icon {
+  background: #fff;
+  color: var(--ka-blue);
+}
+.ka-tone-coral {
+  background: var(--ka-coral-soft);
+}
+.ka-tone-coral .ka-icon {
+  background: #fff;
+  color: var(--ka-coral-ink);
+}
+.ka-tone-yellow {
+  background: var(--ka-yellow-soft);
+}
+.ka-tone-yellow .ka-icon {
+  background: #fff;
+  color: #9a6a00;
+}
+.ka-tone-green {
+  background: var(--ka-green-soft);
+}
+.ka-tone-green .ka-icon {
+  background: #fff;
+  color: var(--ka-green);
+}
+.ka-tone-purple {
+  background: var(--ka-purple-soft);
+}
+.ka-tone-purple .ka-icon {
+  background: #fff;
+  color: var(--ka-purple-ink);
+}
+
+/* Duyurular ve etkinlikler */
+.ka-card {
+  background: #fff;
+  border: 1px solid var(--ka-line);
+  border-radius: var(--ka-radius);
+  box-shadow: var(--ka-shadow);
+  overflow: hidden;
+}
+.ka-news {
+  display: grid;
+  gap: 16px;
+  margin-bottom: 28px;
+}
+.ka-news-item {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+}
+.ka-news-item:has(img) {
+  grid-template-columns: minmax(0, 1fr) 220px;
+}
+.ka-news-item img {
+  order: 2;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.ka-news-item > div {
+  padding: 24px;
+}
+.ka time {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--ka-blue);
+}
+.ka-news-item h3,
+.ka-event h3 {
+  font-size: 22px;
+  margin-top: 4px;
+}
+.ka-news-item p,
+.ka-event p {
+  margin-top: 6px;
+  color: var(--ka-muted);
+}
+.ka-events {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+.ka-event img,
+.ka-event-fallback {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+}
+.ka-event-fallback {
+  display: grid;
+  place-items: center;
+  background: var(--ka-yellow-soft);
+  color: #9a6a00;
+}
+.ka-event-body {
+  padding: 20px 22px 24px;
+}
+
+/* Haftalık akış */
+.ka-split {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: clamp(32px, 6vw, 80px);
+  align-items: center;
+}
+.ka-week {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 12px;
+}
+.ka-week li {
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  gap: 18px;
+  align-items: start;
+  padding: 18px 22px;
+  border-radius: 18px;
+  background: #fff;
+  border: 1px solid var(--ka-line);
+}
+.ka-week-when {
+  display: inline-block;
+  justify-self: start;
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: var(--ka-yellow-soft);
+  color: #6b4b00;
+  font-weight: 800;
+  font-size: 14px;
+}
+.ka-week b {
+  color: var(--ka-ink);
+  font-size: 18px;
+}
+.ka-week p {
+  font-size: 15px;
+  color: var(--ka-muted);
+}
+
+#haftalik .ka-split {
+  align-items: start;
+}
+#haftalik .ka-head-left {
+  position: sticky;
+  top: 110px;
+}
+
+/* Veli paneli */
+.ka-panel {
+  background: var(--ka-cream);
+}
+.ka-panel-media img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: 28px;
+  border: 6px solid #fff;
+  box-shadow: 0 24px 50px -28px rgba(20, 33, 61, 0.45);
+}
+.ka-panel .ka-lead {
+  margin-top: 14px;
+}
+.ka-feature-list {
+  list-style: none;
+  padding: 0;
+  margin: 24px 0 30px;
+  display: grid;
+  gap: 12px;
+}
+.ka-feature-list li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 700;
+  color: var(--ka-ink);
+}
+.ka-feature-list svg {
+  color: var(--ka-coral-ink);
+  flex: none;
+}
+
+/* SSS */
+.ka-faq-wrap {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  gap: clamp(32px, 6vw, 80px);
+  align-items: start;
+}
+.ka-faq {
+  display: grid;
+  gap: 12px;
+}
+.ka-faq details {
+  background: #fff;
+  border: 1px solid var(--ka-line);
+  border-radius: 18px;
+  padding: 0;
+}
+.ka-faq summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 20px 56px 20px 22px;
+  font-weight: 800;
+  font-size: 18px;
+  color: var(--ka-ink);
+  position: relative;
+}
+.ka-faq summary::-webkit-details-marker {
+  display: none;
+}
+.ka-faq summary::after {
+  content: "+";
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  translate: 0 -50%;
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--ka-blue-soft);
+  color: var(--ka-blue);
+  font-size: 20px;
+  line-height: 1;
+}
+.ka-faq details[open] summary::after {
+  content: "−";
+}
+.ka-faq details p {
+  padding: 0 22px 20px;
+  color: var(--ka-muted);
+}
+
+/* İletişim */
+.ka-contact {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(32px, 6vw, 72px);
+  align-items: start;
+}
+.ka-contact .ka-lead {
+  margin-top: 14px;
+}
+.ka-contact-list {
+  list-style: none;
+  padding: 0;
+  margin: 28px 0 0;
+  display: grid;
+  gap: 14px;
+}
+.ka-contact-list a {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  text-decoration: none;
+  color: var(--ka-ink);
+  font-weight: 700;
+}
+.ka-contact-list small {
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ka-muted);
+}
+.ka-form-card {
+  padding: clamp(22px, 3vw, 34px);
+}
+.ka-form-card h3 {
+  font-size: 24px;
+  margin-bottom: 16px;
+}
+.ka .contactForm {
+  display: grid;
+  gap: 14px;
+}
+.ka .contactForm .two {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+.ka .contactForm label {
+  display: grid;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--ka-ink);
+}
+.ka .contactForm input,
+.ka .contactForm select,
+.ka .contactForm textarea {
+  width: 100%;
+  min-height: 48px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 1.5px solid #cdd8ec;
+  background: #fbfdff;
+  font: 500 16px var(--font-ka-text), system-ui, sans-serif;
+  color: var(--ka-ink);
+}
+.ka .contactForm textarea {
+  min-height: 96px;
+  resize: vertical;
+}
+.ka .contactForm input::placeholder,
+.ka .contactForm textarea::placeholder {
+  color: #6b7790;
+}
+.ka .contactForm input:focus,
+.ka .contactForm select:focus,
+.ka .contactForm textarea:focus {
+  outline: 3px solid var(--ka-blue-soft);
+  border-color: var(--ka-blue);
+}
+.ka .contactForm button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 54px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--ka-green);
+  color: #fff;
+  font: 800 17px var(--font-ka-text), system-ui, sans-serif;
+  cursor: pointer;
+}
+.ka .contactForm button:hover {
+  background: #0f6c3e;
+}
+.ka .contactForm button svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* Alt bilgi */
+.ka-footer {
+  background: var(--ka-ink);
+  color: #c9d3e6;
+  padding: 44px 0 110px;
+}
+.ka-footer-in {
+  display: grid;
+  gap: 22px;
+}
+.ka-brand-footer b {
+  color: #fff;
+}
+.ka-brand-footer small {
+  color: #c9d3e6;
+}
+.ka-footer nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 22px;
+}
+.ka-footer nav a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 700;
+}
+.ka-footer nav a:hover {
+  text-decoration: underline;
+}
+.ka-footer p {
+  font-size: 14px;
+}
+
+/* Telefonda alt eylem çubuğu */
+.ka-mobilebar {
+  display: none;
+}
+
+@media (max-width: 1080px) {
+  .ka-nav {
+    display: none;
+  }
+  .ka-header-cta {
+    margin-left: auto;
+  }
+  .ka-benefit-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 860px) {
+  .ka-hero-in,
+  .ka-split,
+  .ka-faq-wrap,
+  .ka-contact {
+    grid-template-columns: 1fr;
+  }
+  .ka-hero-badge {
+    left: 12px;
+    bottom: -18px;
+  }
+  .ka-program-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .ka-program,
+  .ka-program:nth-child(4),
+  .ka-program:nth-child(5) {
+    grid-column: span 1;
+  }
+  .ka-program:nth-child(5) {
+    grid-column: span 2;
+  }
+  .ka-events {
+    grid-template-columns: 1fr 1fr;
+  }
+  .ka-benefits {
+    margin-top: 28px;
+  }
+}
+
+@media (max-width: 600px) {
+  .ka {
+    font-size: 16px;
+  }
+  .ka-hide-sm {
+    display: none !important;
+  }
+  .ka-header-in {
+    min-height: 66px;
+  }
+  .ka-brand img {
+    width: 42px;
+    height: 42px;
+  }
+  .ka-brand b {
+    font-size: 19px;
+  }
+  .ka-header-cta {
+    display: none;
+  }
+  .ka-actions .ka-btn {
+    flex: 1 1 100%;
+  }
+  .ka-benefit-grid,
+  .ka-program-grid,
+  .ka-events {
+    grid-template-columns: 1fr;
+  }
+  .ka-program:nth-child(5) {
+    grid-column: span 1;
+  }
+  .ka-news-item:has(img) {
+    grid-template-columns: 1fr;
+  }
+  .ka-news-item img {
+    order: 0;
+    aspect-ratio: 16 / 9;
+  }
+  .ka-week li {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  .ka .contactForm .two {
+    grid-template-columns: 1fr;
+  }
+  .ka-mobilebar {
+    position: fixed;
+    inset: auto 0 0 0;
+    z-index: 50;
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 10px;
+    padding: 10px 16px calc(10px + env(safe-area-inset-bottom));
+    background: rgba(255, 255, 255, 0.97);
+    border-top: 1px solid var(--ka-line);
+    box-shadow: 0 -10px 24px -16px rgba(20, 33, 61, 0.4);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ka *,
+  .ka *::before,
+  .ka *::after {
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
