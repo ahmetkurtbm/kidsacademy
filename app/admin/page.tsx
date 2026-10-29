@@ -9,8 +9,9 @@ import EventsSection from "./components/EventsSection";
 import ExamSection from "./components/ExamSection";
 import Overview from "./components/Overview";
 import ParentsSection from "./components/ParentsSection";
+import UsersSection from "./components/UsersSection";
 import { buildWhatsAppLink } from "@/lib/whatsapp";
-import { Announcement, emptySubjects, Exam, EventItem, Parent } from "./types";
+import { AdminMe, AdminUser, Announcement, emptySubjects, Exam, EventItem, Parent } from "./types";
 
 export default function AdminPage() {
   const [ready, setReady] = useState(false);
@@ -28,6 +29,9 @@ export default function AdminPage() {
   const [editingParentId, setEditingParentId] = useState<string | null>(null);
   const [resettingPasswordId, setResettingPasswordId] = useState<string | null>(null);
   const [editingExamId, setEditingExamId] = useState<string | null>(null);
+  const [me, setMe] = useState<AdminMe | null>(null);
+  const [adminUsers, setAdminUsers] = useState<AdminUser[]>([]);
+  const [usersSetupRequired, setUsersSetupRequired] = useState(false);
   const editingExam = exams.find((e) => e.id === editingExamId);
 
   const load = useCallback(async () => {
@@ -37,12 +41,29 @@ export default function AdminPage() {
     if (!response.ok) { setMessage(data.error); setReady(true); return; }
     setParents(data.parents || []); setExams(data.exams || []); setEvents(data.events || []); setAnnouncements(data.announcements || []); if (data.contentSetupRequired) setMessage("Bazı özellikler için Supabase SQL Editor'da supabase/migrations klasöründeki eksik migration dosyalarını çalıştırın (20260630_add_announcements_and_private_events.sql, 20260726_add_parent_phone.sql)."); setLoggedIn(true); setReady(true);
   }, []);
+  const loadUsers = useCallback(async () => {
+    const response = await fetch("/api/admin/users", { cache: "no-store" });
+    if (!response.ok) return;
+    const data = await response.json();
+    setMe(data.me); setAdminUsers(data.users || []); setUsersSetupRequired(Boolean(data.setupRequired));
+  }, []);
   useEffect(() => { load(); }, [load]);
+  useEffect(() => { if (loggedIn) loadUsers(); }, [loggedIn, loadUsers]);
+
+  async function sendUsers(method: "POST" | "PATCH" | "DELETE", body: Record<string, unknown>) {
+    setNotify(null); setMessage("");
+    const response = await fetch("/api/admin/users", { method, headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
+    const data = await response.json().catch(() => ({}));
+    if (!response.ok) { setMessage(data.error || "İşlem yapılamadı."); return false; }
+    setMessage(method === "POST" ? "Hesap oluşturuldu." : method === "DELETE" ? "Hesap silindi." : "Hesap güncellendi.");
+    await loadUsers();
+    return true;
+  }
 
   async function login(event: FormEvent<HTMLFormElement>) {
     event.preventDefault(); setMessage("");
     const form = new FormData(event.currentTarget);
-    const response = await fetch("/api/admin/login", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ password: form.get("password") }) });
+    const response = await fetch("/api/admin/login", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ username: form.get("username"), password: form.get("password") }) });
     const data = await response.json().catch(() => ({}));
     if (!response.ok) return setMessage(data.error || "Giriş yapılamadı. Lütfen tekrar deneyin.");
     await load();
@@ -175,9 +196,9 @@ export default function AdminPage() {
   if (!loggedIn) return <AdminLogin onSubmit={login} message={message} />;
 
   return <main className="adminShell">
-    <aside className="adminSidebar"><Link className="portalLogo inversePortal" href="/"><img src="/kids-academy-logo.jpeg" alt="" width={40} height={40} /><b>Kids Academy</b></Link><nav><a href="#overview">Genel Bakış</a><a href="#announcements">Duyurular</a><a href="#events">Etkinlikler</a><a href="#batch-exam">Toplu Deneme</a><a href="#new-exam">Tekli Deneme</a><a href="#parents">Veli Hesapları</a></nav><button onClick={async () => { await fetch("/api/admin/logout", { method: "POST" }); location.reload(); }}>Çıkış yap</button></aside>
+    <aside className="adminSidebar"><Link className="portalLogo inversePortal" href="/"><img src="/kids-academy-logo.jpeg" alt="" width={40} height={40} /><b>Kids Academy</b></Link><nav><a href="#overview">Genel Bakış</a><a href="#announcements">Duyurular</a><a href="#events">Etkinlikler</a><a href="#batch-exam">Toplu Deneme</a><a href="#new-exam">Tekli Deneme</a><a href="#parents">Veli Hesapları</a><a href="#users">{me?.level === "owner" ? "Kullanıcılar" : "Hesabım"}</a></nav><button onClick={async () => { await fetch("/api/admin/logout", { method: "POST" }); location.reload(); }}>Çıkış yap</button></aside>
     <div className="adminMain">
-      <header><div><small>YÖNETİM PANELİ</small><h1>Merhaba 👋</h1></div><Link href="/" target="_blank">Siteyi görüntüle ↗</Link></header>
+      <header><div><small>YÖNETİM PANELİ</small><h1>Merhaba{me && !me.recovery ? `, ${me.name.split(" ")[0]}` : ""} 👋</h1></div><Link href="/" target="_blank">Siteyi görüntüle ↗</Link></header>
       {message && <div className="formMessage">{message}</div>}
       {notify && <div className="formMessage"><a href={notify.url} target="_blank" rel="noreferrer">{notify.label} ↗</a></div>}
       <Overview parents={parents} exams={exams} announcements={announcements} events={events} />
@@ -186,6 +207,7 @@ export default function AdminPage() {
       <BatchExamSection parents={parents} exams={exams} onSaved={async (text) => { setNotify(null); setMessage(text); await load(); }} />
       <ExamSection parents={parents} exams={exams} subjects={subjects} setSubjects={setSubjects} editingExamId={editingExamId} editingExam={editingExam} onSave={saveExam} onCancelEdit={cancelEditExam} onStartEdit={startEditExam} onRemove={(id) => remove("exam", id)} />
       <ParentsSection parents={parents} editingParentId={editingParentId} setEditingParentId={setEditingParentId} resettingPasswordId={resettingPasswordId} setResettingPasswordId={setResettingPasswordId} onCreate={createParent} onUpdate={updateParent} onResetPassword={resetParentPassword} onRemove={remove} />
+      {me && <UsersSection me={me} users={adminUsers} setupRequired={usersSetupRequired} onSend={sendUsers} onError={(text) => { setNotify(null); setMessage(text); }} />}
     </div>
   </main>;
 }

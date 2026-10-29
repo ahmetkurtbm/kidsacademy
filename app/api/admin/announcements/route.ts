@@ -1,7 +1,6 @@
 import { randomUUID } from "node:crypto";
-import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
-import { readSession } from "@/lib/auth";
+import { getAdminSession } from "@/lib/admin-session";
 import { getSupabaseAdmin } from "@/lib/supabase";
 
 const BUCKET = "event-images";
@@ -9,8 +8,7 @@ const MAX_FILE_SIZE = 4 * 1024 * 1024;
 const ALLOWED_TYPES = new Set(["image/jpeg", "image/png", "image/webp"]);
 
 async function authorized() {
-  const session = readSession((await cookies()).get("ka_admin")?.value);
-  return session?.role === "admin";
+  return Boolean(await getAdminSession());
 }
 
 export async function POST(request: Request) {

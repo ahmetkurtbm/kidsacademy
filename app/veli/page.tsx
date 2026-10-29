@@ -1,5 +1,6 @@
 "use client";
 import { FormEvent, useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import AuthShell from "../components/auth-shell";
 
@@ -41,6 +42,7 @@ export default function ParentLanding() {
       {error && <div className="ka-auth-error" role="alert">{error}</div>}
       <button disabled={busy}>{busy ? "Giriş yapılıyor…" : "Sonuçlarımı görüntüle"}</button>
       <a className="ka-auth-help" href={HELP} target="_blank" rel="noreferrer">Kullanıcı adınızı veya şifrenizi mi unuttunuz? WhatsApp&apos;tan yazın</a>
+      <p className="ka-auth-legal"><Link href="/kvkk">KVKK Aydınlatma Metni</Link></p>
     </form>
   </AuthShell>;
 }

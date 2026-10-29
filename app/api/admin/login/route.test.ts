@@ -1,4 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
+import { hashPassword, readSession } from "@/lib/auth";
 import { createFakeSupabase } from "../../../../test/fakeSupabase";
 
 const setCookie = vi.fn();
@@ -50,5 +51,54 @@ describe("POST /api/admin/login", () => {
     const { POST } = await importRoute();
     const response = await POST(new Request("http://localhost/api/admin/login", { method: "POST", body: JSON.stringify({ password: "correct-password" }) }));
     expect(response.status).toBe(429);
+  });
+
+  it("records failures per account so one user cannot lock out another", async () => {
+    const { POST } = await importRoute();
+    await POST(login({ username: "Ayse", password: "wrong" }));
+    expect(fakeDb.inserts.find((i) => i.table === "login_attempts")?.row).toMatchObject({ account_key: "user:ayse", success: false });
+  });
+});
+
+function login(body: Record<string, string>) {
+  return new Request("http://localhost/api/admin/login", { method: "POST", body: JSON.stringify(body) });
+}
+
+describe("POST /api/admin/login with a personal account", () => {
+  const user = (overrides: Record<string, unknown> = {}) => ({ id: "u1", password_hash: hashPassword("staff-password"), active: true, ...overrides });
+
+  it("signs the user in and puts their id in the session", async () => {
+    fakeDb = createFakeSupabase({ adminUser: user() });
+    const { POST } = await importRoute();
+    const response = await POST(login({ username: "ayse", password: "staff-password" }));
+    expect(response.status).toBe(200);
+    const token = setCookie.mock.calls[0][1] as string;
+    expect(readSession(token)).toMatchObject({ role: "admin", sub: "u1" });
+    expect(fakeDb.updates[0]).toMatchObject({ table: "admin_users", filters: { id: "u1" } });
+  });
+
+  it("rejects a wrong password", async () => {
+    fakeDb = createFakeSupabase({ adminUser: user() });
+    const { POST } = await importRoute();
+    expect((await POST(login({ username: "ayse", password: "nope" }))).status).toBe(401);
+    expect(setCookie).not.toHaveBeenCalled();
+  });
+
+  it("rejects a deactivated account even with the right password", async () => {
+    fakeDb = createFakeSupabase({ adminUser: user({ active: false }) });
+    const { POST } = await importRoute();
+    expect((await POST(login({ username: "ayse", password: "staff-password" }))).status).toBe(401);
+  });
+
+  it("rejects an unknown username", async () => {
+    fakeDb = createFakeSupabase({ adminUser: null });
+    const { POST } = await importRoute();
+    expect((await POST(login({ username: "nobody", password: "staff-password" }))).status).toBe(401);
+  });
+
+  it("does not accept the recovery password as a personal account password", async () => {
+    fakeDb = createFakeSupabase({ adminUser: user() });
+    const { POST } = await importRoute();
+    expect((await POST(login({ username: "ayse", password: "correct-password" }))).status).toBe(401);
   });
 });

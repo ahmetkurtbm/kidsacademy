@@ -1,13 +1,12 @@
-import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
-import { hashPassword, readSession } from "@/lib/auth";
+import { getAdminSession } from "@/lib/admin-session";
+import { hashPassword } from "@/lib/auth";
 import { normalizeSlug } from "@/lib/slug";
 import { getSupabaseAdmin } from "@/lib/supabase";
 import { normalizePhone } from "@/lib/whatsapp";
 
 async function authorized() {
-  const session = readSession((await cookies()).get("ka_admin")?.value);
-  return session?.role === "admin";
+  return Boolean(await getAdminSession());
 }
 
 export async function GET() {

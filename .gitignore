@@ -16,6 +16,9 @@
 .env.production.local
 !.env.example
 
+# veritabanı yedekleri (kişisel veri içerir)
+/backups/
+
 # logs
 npm-debug.log*
 yarn-debug.log*

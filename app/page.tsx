@@ -262,6 +262,7 @@ export default async function Home() {
           <div className="ka-card ka-form-card">
             <h3>Bilgi formu</h3>
             <ContactWhatsAppForm />
+            <p className="ka-form-privacy">Bilgileriniz sunucumuza kaydedilmez, WhatsApp mesajı olarak size açılır. Ayrıntılar: <Link href="/kvkk">KVKK Aydınlatma Metni</Link></p>
           </div>
         </div>
       </section>
@@ -279,6 +280,7 @@ export default async function Home() {
           <a href="#sss">SSS</a>
           <a href="https://www.instagram.com/kidsacademy80/" target="_blank" rel="noreferrer">Instagram</a>
           <Link href="/veli">Veli girişi</Link>
+          <Link href="/kvkk">KVKK</Link>
           <Link href="/admin">Yönetim</Link>
         </nav>
         <p>© {new Date().getFullYear()} Kids Academy · {ADDRESS}</p>

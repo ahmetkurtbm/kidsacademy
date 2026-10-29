@@ -3,6 +3,8 @@ import type { SupabaseClient } from "@supabase/supabase-js";
 const WINDOW_MINUTES = 15;
 const MAX_IP_FAILURES = 10;
 const MAX_ACCOUNT_FAILURES = 5;
+/** KVKK aydınlatma metninde söz verilen saklama süresi. */
+const RETENTION_DAYS = 90;
 
 export function getClientIp(request: Request): string {
   const forwarded = request.headers.get("x-forwarded-for");
@@ -21,4 +23,7 @@ export async function checkRateLimit(db: SupabaseClient, scope: "admin" | "paren
 
 export async function recordAttempt(db: SupabaseClient, scope: "admin" | "parent", ip: string, accountKey: string, success: boolean): Promise<void> {
   await db.from("login_attempts").insert({ scope, ip, account_key: accountKey, success });
+  // Süresi dolan kayıtlar ayrı bir zamanlanmış iş gerektirmeden girişlerde temizlenir.
+  const expired = new Date(Date.now() - RETENTION_DAYS * 24 * 60 * 60 * 1000).toISOString();
+  await db.from("login_attempts").delete().lt("created_at", expired);
 }

@@ -926,3 +926,40 @@
     display: none;
   }
 }
+
+/* Yönetici hesapları ve yasal bağlantılar */
+details.ka-auth-help {
+  text-align: left;
+  font: 700 14px var(--p-font);
+}
+details.ka-auth-help:hover {
+  text-decoration: none;
+}
+details.ka-auth-help summary {
+  cursor: pointer;
+  font-weight: 700;
+  text-align: center;
+}
+details.ka-auth-help p {
+  margin: 8px 0 0;
+  font-weight: 500;
+}
+.ka-auth-legal {
+  margin: 0 !important;
+  text-align: center;
+  font-size: 13px;
+}
+.ka-auth-legal a {
+  color: var(--p-muted);
+}
+.usersNotice {
+  margin: 0 0 16px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: var(--p-blue-soft);
+  color: var(--p-ink);
+  font-size: 15px;
+}
+.adminForm select {
+  min-height: 46px;
+}

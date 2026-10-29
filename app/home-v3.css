@@ -915,3 +915,61 @@
     scroll-behavior: auto !important;
   }
 }
+
+/* KVKK ve diğer yasal metinler */
+.ka-legal {
+  min-height: 100vh;
+  background: var(--ka-sky);
+}
+.ka-legal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding-block: 20px;
+}
+.ka-legal-head > a:last-child {
+  color: var(--ka-blue);
+  font-weight: 700;
+}
+.ka-legal-body {
+  max-width: 760px;
+  margin-bottom: 56px;
+  padding: clamp(24px, 5vw, 48px);
+  background: var(--ka-bg);
+  border: 1px solid var(--ka-line);
+  border-radius: var(--ka-radius);
+  color: var(--ka-text);
+  line-height: 1.7;
+}
+.ka-legal-body h1 {
+  margin: 0;
+  font-family: var(--font-ka-display), sans-serif;
+  font-size: clamp(26px, 4vw, 36px);
+  line-height: 1.15;
+  color: var(--ka-ink);
+}
+.ka-legal-body h2 {
+  margin: 32px 0 8px;
+  font-size: 19px;
+  color: var(--ka-ink);
+}
+.ka-legal-body ul {
+  padding-left: 20px;
+}
+.ka-legal-body li + li {
+  margin-top: 6px;
+}
+.ka-legal-updated {
+  margin: 8px 0 0;
+  color: var(--ka-muted);
+  font-size: 14px;
+}
+.ka-form-privacy {
+  margin: 12px 0 0;
+  font-size: 13px;
+  color: var(--ka-muted);
+}
+.ka-form-privacy a {
+  color: var(--ka-blue);
+}

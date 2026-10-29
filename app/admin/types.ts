@@ -8,3 +8,6 @@ export type SubjectDraft = { name: string; questions: number; correct: number; w
 
 export const subjectNames = ["Türkçe", "Matematik", "Fen Bilimleri", "Sosyal Bilgiler", "İngilizce"];
 export const emptySubjects = (): SubjectDraft[] => subjectNames.map((name) => ({ name, questions: 0, correct: 0, wrong: 0, blank: 0, topics: "" }));
+export type AdminLevel = "owner" | "staff";
+export type AdminMe = { id: string; name: string; level: AdminLevel; recovery: boolean };
+export type AdminUser = { id: string; username: string; display_name: string; role: AdminLevel; active: boolean; created_at: string; last_login_at?: string | null };
