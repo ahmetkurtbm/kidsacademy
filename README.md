@@ -24,12 +24,11 @@ Bir eğitim kurumu için geliştirilmiş, yönetici tarafından yürütülen bir
 
 ## Ekran görüntüleri
 
-<!-- docs/screenshots/ klasörüne bu adlarla PNG ekleyin. -->
-| Ana sayfa | Veli paneli (telefon) |
+| Ana sayfa | Telefonda |
 |---|---|
-| ![Ana sayfa](docs/screenshots/ana-sayfa.png) | ![Veli sonuç paneli](docs/screenshots/veli-paneli-mobil.png) |
-| **Toplu deneme girişi** | **Yönetici hesapları** |
-| ![Toplu deneme girişi](docs/screenshots/toplu-deneme.png) | ![Yönetici hesapları](docs/screenshots/kullanicilar.png) |
+| ![Ana sayfa](docs/screenshots/ana-sayfa.png) | <img src="docs/screenshots/ana-sayfa-mobil.png" alt="Telefonda ana sayfa" width="260"> |
+
+![Veli girişi](docs/screenshots/veli-giris.png)
 
 ## Özellikler
 
